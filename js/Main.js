@@ -1,8 +1,9 @@
 let canvas,
   canvasContext,
-  FRAME_PER_SECOND = 30;
+  FRAME_PER_SECOND = 30,
+  PLAYER_START_UNITS = 8;
 
-
+let playerUnits = [];
 let testUnit = new Unit();
 
 
@@ -20,20 +21,33 @@ window.onload = function () {
   })
   canvas.addEventListener('click', function (e) {
     let mousePos = calculateMousePos(e);
-    testUnit.goToX = mousePos.x;
-    testUnit.goToY = mousePos.y;
+    for (let i = 0; i < playerUnits.length; i++) {
+      playerUnits[i].goToX = mousePos.x;
+      playerUnits[i].goToY = mousePos.y;
+    }
+
   })
-  testUnit.reset();
+
+  for (let i = 0; i < PLAYER_START_UNITS; i++) {
+    let spawnUnit = new Unit();
+    spawnUnit.reset();
+    playerUnits.push(spawnUnit);
+  }
+
 }
 
 function drawEverething() {
   colorRect(0, 0, canvas.width, canvas.height, 'black')
-  testUnit.draw()
+  for (let i = 0; i < playerUnits.length; i++) {
+    playerUnits[i].draw();
+  }
 }
 
 
 function moveEverething() {
-  testUnit.move();
+  for (let i = 0; i < playerUnits.length; i++) {
+    playerUnits[i].move();
+  }
 }
 
 function calculateMousePos(e) {

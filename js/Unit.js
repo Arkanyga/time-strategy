@@ -24,17 +24,31 @@ class Unit {
   }
 
   move() {
-    if (this.goToX > this.x) {
-      this.x += UNIT_PIXELS_MOVE_RATE;
+    // if (this.goToX > this.x) {
+    //   this.x += UNIT_PIXELS_MOVE_RATE;
+    // }
+    // if (this.goToX < this.x) {
+    //   this.x -= UNIT_PIXELS_MOVE_RATE;
+    // }
+    // if (this.goToY > this.y) {
+    //   this.y += UNIT_PIXELS_MOVE_RATE;
+    // }
+    // if (this.goToY < this.y) {
+    //   this.y -= UNIT_PIXELS_MOVE_RATE;
+    // }
+    let deltaX = this.goToX - this.x;
+    let deltaY = this.goToY - this.y;
+    let distToGo = Math.sqrt(deltaY * deltaY + deltaX * deltaX);
+    let moveX = UNIT_PIXELS_MOVE_RATE * deltaX / distToGo;
+    let moveY = UNIT_PIXELS_MOVE_RATE * deltaY / distToGo;
+    if (distToGo > UNIT_PIXELS_MOVE_RATE) {
+      this.x += moveX;
+      this.y += moveY;
+    } else {
+      this.x = this.goToX;
+      this.y = this.goToY;
+
     }
-    if (this.goToX < this.x) {
-      this.x -= UNIT_PIXELS_MOVE_RATE;
-    }
-    if (this.goToY > this.y) {
-      this.y += UNIT_PIXELS_MOVE_RATE;
-    }
-    if (this.goToY < this.y) {
-      this.y -= UNIT_PIXELS_MOVE_RATE;
-    }
+
   }
 }
