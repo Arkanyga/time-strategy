@@ -11,18 +11,28 @@ class Unit {
     this.x;
     this.y;
     this.idDead = false;
+    this.unitColor;
   }
-  reset() {
+
+  resetAndSetPlayerTeam(playerTeam) {
+    this.playerControlled = playerTeam;
     this.x = Math.random() * canvas.width / 4;
     this.y = Math.random() * canvas.height / 4;
-
+    if (!this.playerControlled) {
+      this.x = canvas.width - this.x;
+      this.y = canvas.height - this.y;
+      this.unitColor = 'red';
+    } else {
+      this.unitColor = 'white';
+    }
+    this.idDead = false;
     this.goToX = this.x;
     this.goToY = this.y;
   }
 
   draw() {
     if (!this.isDead) {
-      colorCircle(this.x, this.y, UNIT_PLACEHOLDER_RADIUS, 'white')
+      colorCircle(this.x, this.y, UNIT_PLACEHOLDER_RADIUS, this.unitColor)
     }
   }
 
