@@ -20,4 +20,9 @@ function drawBitmapCenteredAtLocationWithRotation(graphic, atX, atY, withAngle) 
   canvasContext.restore();
 }
 
-
+function coloredOutlineRectCornerToCorner(corner1X, corner1Y, corner2X, corner2Y, color) {
+  canvasContext.strokeStyle = color;
+  canvasContext.beginPath();
+  canvasContext.rect(corner1X, corner1Y, corner2X - corner1X, corner2Y - corner1Y);
+  canvasContext.stroke();
+}

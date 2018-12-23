@@ -1,5 +1,7 @@
 const UNIT_PLACEHOLDER_RADIUS = 5,
-  UNIT_PIXELS_MOVE_RATE = 2;
+  UNIT_MAX_RAND_DIST_FROM_WALK_TARGET = 50,
+  UNIT_PIXELS_MOVE_RATE = 2,
+  UNIT_SELECT_DIM_HALF = UNIT_PIXELS_MOVE_RATE + 6;
 
 
 
@@ -23,19 +25,14 @@ class Unit {
     }
   }
 
+  drawSelectionBox() {
+    coloredOutlineRectCornerToCorner(this.x - UNIT_SELECT_DIM_HALF,
+      this.y - UNIT_SELECT_DIM_HALF,
+      this.x + UNIT_SELECT_DIM_HALF,
+      this.y + UNIT_SELECT_DIM_HALF, 'yellow');
+  }
+
   move() {
-    // if (this.goToX > this.x) {
-    //   this.x += UNIT_PIXELS_MOVE_RATE;
-    // }
-    // if (this.goToX < this.x) {
-    //   this.x -= UNIT_PIXELS_MOVE_RATE;
-    // }
-    // if (this.goToY > this.y) {
-    //   this.y += UNIT_PIXELS_MOVE_RATE;
-    // }
-    // if (this.goToY < this.y) {
-    //   this.y -= UNIT_PIXELS_MOVE_RATE;
-    // }
     let deltaX = this.goToX - this.x;
     let deltaY = this.goToY - this.y;
     let distToGo = Math.sqrt(deltaY * deltaY + deltaX * deltaX);
@@ -50,5 +47,35 @@ class Unit {
 
     }
 
+  }
+
+  goToNear(aroundX, aroundY) {
+    this.goToX = aroundX + Math.random() * UNIT_MAX_RAND_DIST_FROM_WALK_TARGET;
+    this.goToY = aroundY + Math.random() * UNIT_MAX_RAND_DIST_FROM_WALK_TARGET;
+
+  }
+
+  isInBox(leftX, topY, rightX, bottomY) {
+    if (this.x < leftX) {
+      console.log(123);
+
+      return false;
+    }
+    if (this.x > rightX) {
+      console.log(123);
+
+      return false;
+    }
+    if (this.y < topY) {
+      console.log(123);
+
+      return false;
+    }
+    if (this.y > bottomY) {
+      console.log(123);
+
+      return false;
+    }
+    return true;
   }
 }
