@@ -1,6 +1,7 @@
 const UNIT_PLACEHOLDER_RADIUS = 5,
   UNIT_MAX_RAND_DIST_FROM_WALK_TARGET = 50,
   UNIT_PIXELS_MOVE_RATE = 2,
+  UNIT_RANKS_SPACING = UNIT_PLACEHOLDER_RADIUS * 3,
   UNIT_SELECT_DIM_HALF = UNIT_PIXELS_MOVE_RATE + 6;
 
 
@@ -49,9 +50,11 @@ class Unit {
 
   }
 
-  goToNear(aroundX, aroundY) {
-    this.goToX = aroundX + Math.random() * UNIT_MAX_RAND_DIST_FROM_WALK_TARGET;
-    this.goToY = aroundY + Math.random() * UNIT_MAX_RAND_DIST_FROM_WALK_TARGET;
+  goToNear(aroundX, aroundY, formationPos, formationDim) {
+    let colNum = formationPos % formationDim;
+    let rowNum = Math.floor(formationPos / formationDim);
+    this.goToX = aroundX + colNum * UNIT_RANKS_SPACING;
+    this.goToY = aroundY + rowNum * UNIT_RANKS_SPACING;
 
   }
 

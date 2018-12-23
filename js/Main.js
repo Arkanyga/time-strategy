@@ -3,7 +3,7 @@ let canvas,
 
 const FRAME_PER_SECOND = 30,
   MIN_DIST_TO_COUNT_DRAG = 10,
-  PLAYER_START_UNITS = 8;
+  PLAYER_START_UNITS = 20;
 
 let playerUnits = [];
 let selectedUnits = [];
@@ -33,13 +33,6 @@ window.onload = function () {
 
     }
   })
-  // canvas.addEventListener('click', function (e) {
-  //   let mousePos = calculateMousePos(e);
-  //   for (let i = 0; i < playerUnits.length; i++) {
-  //     playerUnits[i].goToNear(mousePos.x, mousePos.y);
-  //   }
-
-  // })
   canvas.addEventListener('mousedown', function (e) {
     let mousePos = calculateMousePos(e);
     lassoX1 = mousePos.x;
@@ -60,8 +53,9 @@ window.onload = function () {
       }
     } else {
       let mousePos = calculateMousePos(e);
+      let unitsAlongSide = Math.floor(Math.sqrt(selectedUnits.length + 2))//добавляем 2 чтобы floor не скинул допустим 7 до 2 рядов или при3 юнитах чтобы было 2 ряда а не 1
       for (let i = 0; i < selectedUnits.length; i++) {
-        selectedUnits[i].goToNear(mousePos.x, mousePos.y);
+        selectedUnits[i].goToNear(mousePos.x, mousePos.y, i, unitsAlongSide);
       }
     }
 
