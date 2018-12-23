@@ -55,27 +55,10 @@ class Unit {
 
   }
 
-  isInBox(leftX, topY, rightX, bottomY) {
-    if (this.x < leftX) {
-      console.log(123);
-
-      return false;
-    }
-    if (this.x > rightX) {
-      console.log(123);
-
-      return false;
-    }
-    if (this.y < topY) {
-      console.log(123);
-
-      return false;
-    }
-    if (this.y > bottomY) {
-      console.log(123);
-
-      return false;
-    }
-    return true;
+  //число находится между двумя числами если произведение их разницы будет отрицательным
+  //пример [1,5] цифра чтобы доказать что 3 между ними 
+  //1-3 * 5-3 < 0 значит цифра 3 между ними
+  isInBox(x1, y1, x2, y2) {
+    return (this.x - x1) * (this.x - x2) < 0 && (this.y - y1) * (this.y - y2) < 0
   }
 }

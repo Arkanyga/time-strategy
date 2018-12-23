@@ -1,6 +1,8 @@
 let canvas,
-  canvasContext,
-  FRAME_PER_SECOND = 30,
+  canvasContext;
+
+const FRAME_PER_SECOND = 30,
+  MIN_DIST_TO_COUNT_DRAG = 10,
   PLAYER_START_UNITS = 8;
 
 let playerUnits = [];
@@ -49,14 +51,20 @@ window.onload = function () {
 
   canvas.addEventListener('mouseup', function (e) {
     isMouseDragging = false;
-    selectedUnits = [];
-    for (let i = 0; i < playerUnits.length; i++) {
-      if (playerUnits[i].isInBox(lassoX1, lassoY1, lassoX2, lassoY2)) {
-        console.log(123);
-
-        selectedUnits.push(playerUnits[i]);
+    if (mouseMovedEnoughToTreatAsDrag()) {
+      selectedUnits = [];
+      for (let i = 0; i < playerUnits.length; i++) {
+        if (playerUnits[i].isInBox(lassoX1, lassoY1, lassoX2, lassoY2)) {
+          selectedUnits.push(playerUnits[i]);
+        }
+      }
+    } else {
+      let mousePos = calculateMousePos(e);
+      for (let i = 0; i < selectedUnits.length; i++) {
+        selectedUnits[i].goToNear(mousePos.x, mousePos.y);
       }
     }
+
   })
 
   for (let i = 0; i < PLAYER_START_UNITS; i++) {
@@ -98,5 +106,11 @@ function calculateMousePos(e) {
   }
 }
 
+function mouseMovedEnoughToTreatAsDrag() {
+  let diffX = lassoX1 - lassoX2;
+  let diffY = lassoY1 - lassoY2;
+  let dragDist = Math.sqrt(diffX * diffX + diffY * diffY);
+  return (dragDist > MIN_DIST_TO_COUNT_DRAG)
+}
 
 
