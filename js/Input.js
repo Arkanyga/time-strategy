@@ -63,7 +63,9 @@ function mouseupHandler(e) {
     console.log(clickedUnit);
 
     if (clickedUnit !== null && clickedUnit.playerControlled === false) {
-      console.log(selectedUnits.length);
+      for (let i = 0; i < selectedUnits.length; i++) {
+        selectedUnits[i].setTarget(clickedUnit);
+      }
 
     } else {
       let unitsAlongSide = Math.floor(Math.sqrt(selectedUnits.length + 2))//добавляем 2 чтобы floor не скинул допустим 7 до 2 рядов или при3 юнитах чтобы было 2 ряда а не 1

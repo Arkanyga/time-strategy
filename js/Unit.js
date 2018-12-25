@@ -1,6 +1,7 @@
 const UNIT_PLACEHOLDER_RADIUS = 5,
   UNIT_MAX_RAND_DIST_FROM_WALK_TARGET = 50,
   UNIT_PIXELS_MOVE_RATE = 2,
+  UNIT_ATTACK_RANGE = 55,
   UNIT_RANKS_SPACING = UNIT_PLACEHOLDER_RADIUS * 3,
   UNIT_SELECT_DIM_HALF = UNIT_PIXELS_MOVE_RATE + 6;
 
@@ -12,10 +13,10 @@ class Unit {
     this.y;
     this.idDead = false;
     this.unitColor;
-    this.playerControlled;
   }
 
   resetAndSetPlayerTeam(playerTeam) {
+    this.myTarget = null;
     this.playerControlled = playerTeam;
     this.x = Math.random() * canvas.width / 4;
     this.y = Math.random() * canvas.height / 4;
@@ -45,6 +46,28 @@ class Unit {
   }
 
   move() {
+    if (this.myTarget !== null) {
+      if (this.myTarget.isDead) {
+        this.myTarget = null;
+        this.goToX = this.x;
+        this.goToY = this.y;
+      } else if (this.distFrom(this.myTarget.x, this.myTarget.y) > UNIT_ATTACK_RANGE) {
+        this.goToX = this.myTarget.x;
+        this.goToY = this.myTarget.y;
+      } else {
+        this.myTarget.isDead = true;
+        this.goToX = this.x;
+        this.goToY = this.y;
+      }
+    } else if (this.playerControlled === false) {
+      if (Math.random() < 0.02) {
+        this.goToX = this.x - Math.random() * 70;
+        this.goToY = this.y - Math.random() * 70;
+
+      }
+    }
+
+
     let deltaX = this.goToX - this.x;
     let deltaY = this.goToY - this.y;
     let distToGo = Math.sqrt(deltaY * deltaY + deltaX * deltaX);
@@ -56,7 +79,6 @@ class Unit {
     } else {
       this.x = this.goToX;
       this.y = this.goToY;
-
     }
 
   }
@@ -80,5 +102,9 @@ class Unit {
     let deltaX = otherX - this.x;
     let deltaY = otherY - this.y;
     return Math.sqrt(deltaX * deltaX + deltaY * deltaY)
+  }
+
+  setTarget(newTarget) {
+    this.myTarget = newTarget;
   }
 }
