@@ -7,6 +7,7 @@ const FRAME_PER_SECOND = 30,
 
 let playerUnits = [];
 let enemyUnits = [];
+let allUnits = [];
 let testUnit = new Unit();
 
 
@@ -22,26 +23,14 @@ window.onload = function () {
   canvas.addEventListener('mousemove', mouseMoveHandler)
   canvas.addEventListener('mousedown', mousedownHandler)
   canvas.addEventListener('mouseup', mouseupHandler)
-
-  for (let i = 0; i < PLAYER_START_UNITS; i++) {
-    let spawnUnit = new Unit();
-    spawnUnit.resetAndSetPlayerTeam(true)
-    playerUnits.push(spawnUnit);
-  }
-  for (let i = 0; i < ENEMY_START_UNITS; i++) {
-    let spawnUnit = new Unit();
-    spawnUnit.resetAndSetPlayerTeam(false)
-    enemyUnits.push(spawnUnit);
-  }
+  populateTeam(playerUnits, PLAYER_START_UNITS, true);
+  populateTeam(enemyUnits, ENEMY_START_UNITS, false)
 }
 
 function drawEverething() {
   colorRect(0, 0, canvas.width, canvas.height, 'black')
-  for (let i = 0; i < playerUnits.length; i++) {
-    playerUnits[i].draw();
-  }
-  for (let i = 0; i < enemyUnits.length; i++) {
-    enemyUnits[i].draw();
+  for (let i = 0; i < allUnits.length; i++) {
+    allUnits[i].draw();
   }
 
   for (let i = 0; i < selectedUnits.length; i++) {
@@ -55,14 +44,11 @@ function drawEverething() {
 
 
 function moveEverething() {
-  for (let i = 0; i < playerUnits.length; i++) {
-    playerUnits[i].move();
+
+  for (let i = 0; i < allUnits.length; i++) {
+    allUnits[i].move();
   }
-  for (let i = 0; i < enemyUnits.length; i++) {
-    enemyUnits[i].move();
-  }
+
 }
-
-
 
 

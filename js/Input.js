@@ -27,24 +27,7 @@ function mouseMovedEnoughToTreatAsDrag() {
 
 //
 function getUnitUnderMouse(currentMousePos) {
-  let closestDistanceFoundToMouse = MIN_DIST_FOR_MOUSE_CLICK_SELECTABLE;
-  let closestUnit = null;
-  for (let i = 0; i < playerUnits.length; i++) {
-    let pDist = playerUnits[i].distFrom(currentMousePos.x, currentMousePos.y);
-    if (pDist < closestDistanceFoundToMouse) {
-      closestUnit = playerUnits[i];
-      closestDistanceFoundToMouse = pDist;
-    }
-  }
-
-  for (let i = 0; i < enemyUnits.length; i++) {
-    let eDist = enemyUnits[i].distFrom(currentMousePos.x, currentMousePos.y);
-    if (eDist < closestDistanceFoundToMouse) {
-      closestUnit = enemyUnits[i];
-      closestDistanceFoundToMouse = eDist;//чтобы выбрать только 1 юнит(при береборе будет несколько значений который меньше MIN_DIST_FOR_MOUSE_CLICK_SELECTABLE, если убрать то выберет последнее которое было меньше MIN_DIST_FOR_MOUSE_CLICK_SELECTABLE)
-    }
-  }
-  return closestUnit
+  return findClosestUnitInRange(currentMousePos.x, currentMousePos.y, MIN_DIST_FOR_MOUSE_CLICK_SELECTABLE, allUnits)
 }
 
 

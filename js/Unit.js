@@ -2,6 +2,7 @@ const UNIT_PLACEHOLDER_RADIUS = 5,
   UNIT_MAX_RAND_DIST_FROM_WALK_TARGET = 50,
   UNIT_PIXELS_MOVE_RATE = 2,
   UNIT_ATTACK_RANGE = 55,
+  UNIT_AI_ATTACK_INITIATE = UNIT_ATTACK_RANGE + 10,
   UNIT_RANKS_SPACING = UNIT_PLACEHOLDER_RADIUS * 3,
   UNIT_SELECT_DIM_HALF = UNIT_PIXELS_MOVE_RATE + 6;
 
@@ -61,12 +62,17 @@ class Unit {
       }
     } else if (this.playerControlled === false) {
       if (Math.random() < 0.02) {
-        this.goToX = this.x - Math.random() * 70;
-        this.goToY = this.y - Math.random() * 70;
+        let nearestOpponentFound = findClosestUnitInRange(this.x, this.y, UNIT_AI_ATTACK_INITIATE, playerUnits);
+        if (nearestOpponentFound !== null) {
+          this.myTarget = nearestOpponentFound;
+        } else {
+          this.goToX = this.x - Math.random() * 70;
+          this.goToY = this.y - Math.random() * 70;
+        }
+
 
       }
     }
-
 
     let deltaX = this.goToX - this.x;
     let deltaY = this.goToY - this.y;
