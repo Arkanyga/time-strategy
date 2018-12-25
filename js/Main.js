@@ -3,7 +3,8 @@ let canvas,
 
 const FRAME_PER_SECOND = 30,
   MIN_DIST_TO_COUNT_DRAG = 10,
-  ENEMY_START_UNITS = 15,
+  MIN_DIST_FOR_MOUSE_CLICK_SELECTABLE = 12;
+ENEMY_START_UNITS = 15,
   PLAYER_START_UNITS = 20;
 
 let playerUnits = [];
@@ -54,10 +55,19 @@ window.onload = function () {
       }
     } else {
       let mousePos = calculateMousePos(e);
-      let unitsAlongSide = Math.floor(Math.sqrt(selectedUnits.length + 2))//добавляем 2 чтобы floor не скинул допустим 7 до 2 рядов или при3 юнитах чтобы было 2 ряда а не 1
-      for (let i = 0; i < selectedUnits.length; i++) {
-        selectedUnits[i].goToNear(mousePos.x, mousePos.y, i, unitsAlongSide);
+      let clickedUnit = getUnitUnderMouse(mousePos);
+      console.log(clickedUnit);
+
+      if (clickedUnit !== null && clickedUnit.playerControlled === false) {
+        console.log(selectedUnits.length);
+
+      } else {
+        let unitsAlongSide = Math.floor(Math.sqrt(selectedUnits.length + 2))//добавляем 2 чтобы floor не скинул допустим 7 до 2 рядов или при3 юнитах чтобы было 2 ряда а не 1
+        for (let i = 0; i < selectedUnits.length; i++) {
+          selectedUnits[i].goToNear(mousePos.x, mousePos.y, i, unitsAlongSide);
+        }
       }
+
     }
 
   })
@@ -119,4 +129,30 @@ function mouseMovedEnoughToTreatAsDrag() {
   return (dragDist > MIN_DIST_TO_COUNT_DRAG)
 }
 
+
+//
+function getUnitUnderMouse(currentMousePos) {
+  let closestDistanceFoundToMouse = MIN_DIST_FOR_MOUSE_CLICK_SELECTABLE;
+  let closestUnit = null;
+  for (let i = 0; i < playerUnits.length; i++) {
+    let pDist = playerUnits[i].distFrom(currentMousePos.x, currentMousePos.y);
+    if (pDist < closestDistanceFoundToMouse) {
+      closestUnit = playerUnits[i];
+      closestDistanceFoundToMouse = pDist;
+    }
+  }
+
+  for (let i = 0; i < enemyUnits.length; i++) {
+    let eDist = enemyUnits[i].distFrom(currentMousePos.x, currentMousePos.y);
+    console.log(eDist);
+
+    if (eDist < closestDistanceFoundToMouse) {
+      closestUnit = enemyUnits[i];
+      closestDistanceFoundToMouse = eDist;
+      console.log(closestDistanceFoundToMouse)
+
+    }
+  }
+  return closestUnit
+}
 

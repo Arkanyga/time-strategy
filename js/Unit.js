@@ -12,6 +12,7 @@ class Unit {
     this.y;
     this.idDead = false;
     this.unitColor;
+    this.playerControlled;
   }
 
   resetAndSetPlayerTeam(playerTeam) {
@@ -73,5 +74,11 @@ class Unit {
   //1-3 * 5-3 < 0 значит цифра 3 между ними
   isInBox(x1, y1, x2, y2) {
     return (this.x - x1) * (this.x - x2) < 0 && (this.y - y1) * (this.y - y2) < 0
+  }
+
+  distFrom(otherX, otherY) {
+    let deltaX = otherX - this.x;
+    let deltaY = otherY - this.y;
+    return Math.sqrt(deltaX * deltaX + deltaY * deltaY)
   }
 }
