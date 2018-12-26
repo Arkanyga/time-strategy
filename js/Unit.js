@@ -2,6 +2,7 @@ const UNIT_PLACEHOLDER_RADIUS = 5,
   UNIT_MAX_RAND_DIST_FROM_WALK_TARGET = 50,
   UNIT_PIXELS_MOVE_RATE = 2,
   UNIT_ATTACK_RANGE = 55,
+  UNIT_PLAYABLE_AREA_MARGIN = 20,
   UNIT_AI_ATTACK_INITIATE = UNIT_ATTACK_RANGE + 10,
   UNIT_RANKS_SPACING = UNIT_PLACEHOLDER_RADIUS * 3,
   UNIT_SELECT_DIM_HALF = UNIT_PIXELS_MOVE_RATE + 6;
@@ -74,7 +75,7 @@ class Unit {
 
       }
     }
-
+    this.keepInPlayableArea();
     let deltaX = this.goToX - this.x;
     let deltaY = this.goToY - this.y;
     let distToGo = Math.sqrt(deltaY * deltaY + deltaX * deltaX);
@@ -113,5 +114,19 @@ class Unit {
 
   setTarget(newTarget) {
     this.myTarget = newTarget;
+  }
+
+  keepInPlayableArea() {
+    if (this.goToX < UNIT_PLAYABLE_AREA_MARGIN) {
+      this.goToX = UNIT_PLAYABLE_AREA_MARGIN;
+    } else if (this.goToX > canvas.width - UNIT_PLAYABLE_AREA_MARGIN) {
+      this.goToX = canvas.width - UNIT_PLAYABLE_AREA_MARGIN;
+    }
+
+    if (this.goToY < UNIT_PLAYABLE_AREA_MARGIN) {
+      this.goToY = UNIT_PLAYABLE_AREA_MARGIN;
+    } else if (this.goToY > canvas.height - UNIT_PLAYABLE_AREA_MARGIN) {
+      this.goToY = canvas.height - UNIT_PLAYABLE_AREA_MARGIN;
+    }
   }
 }

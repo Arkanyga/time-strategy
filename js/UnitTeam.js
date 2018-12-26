@@ -26,6 +26,15 @@ function populateTeam(whichTeam, howMany, isPlayerControlled) {
   }
 }
 
+function checkAndHandleVictory() {
+  if (playerUnits.length === 0 && enemyUnits.length === 0) {
+    document.getElementById('debugText').innerHTML = 'It"s a draw';
+  } else if (playerUnits.length === 0) {
+    document.getElementById('debugText').innerHTML = 'enemy Win';
+  } else if (enemyUnits.length === 0) {
+    document.getElementById('debugText').innerHTML = 'player Win';
+  }
+}
 
 function addNewUnitToTeam(spawnedUnit, fightsForTeam) {
   fightsForTeam.push(spawnedUnit);
