@@ -57,6 +57,7 @@ class Unit {
         this.goToY = this.myTarget.y;
       } else {
         this.myTarget.isDead = true;
+        soonCheckUnitsToClear();
         this.goToX = this.x;
         this.goToY = this.y;
       }
